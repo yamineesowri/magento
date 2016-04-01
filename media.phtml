@@ -1,0 +1,195 @@
+<script type="text/javascript">
+
+VideoGallery_View = Class.create();
+VideoGallery_View.prototype = {
+		
+	width : 260,
+	height : 240,
+	container : '',
+	videoBlocks: new Array(),
+	
+	initialize : function(width, height , container ) {
+        this.width = width;
+        this.height = height;
+        this.container = container;
+    },
+
+	setVideo : function(video_id)
+	{	
+    	if (!video_id)
+    	{
+    		return false;
+    	}
+    	
+    	if (this.prev_video && video_id != this.prev_video)
+    	{
+    		Element.hide(' video-container-' + this.prev_video );
+    		$(' video-container-' + this.prev_video).innerHTML = '';
+    	}
+    	this.prev_video = video_id;
+		//alert(this.videoBlocks[video_id]);
+    	$(' video-container-' + video_id).innerHTML = this.videoBlocks[video_id];
+    	Element.show( ' video-container-' + video_id );
+		//$('product-media-videos').show();
+        $('product-media-images').className = 'videohide';
+		//$('product-social').hide();
+		//$('divvideo').show();
+		return false;
+	},
+	
+	setPrevVideo : function()
+	{
+		this.setVideo(this.prev_video);
+	},
+	
+	setHeight : function ( height )
+	{
+		this.height = height;
+	},
+	
+	setWidth : function( width )
+	{
+		this.width = width;
+	},
+	
+	grow : function()
+	{
+		if( $(' video-container-' + this.prev_video + ' video-object' ).getWidth() > 300 )
+		{
+			return this.shrink();
+		}
+		
+		new Effect.Scale( ' video-container-' + this.prev_video + ' video-object' , 240 );
+		Element.show( 'video-shrink');
+		Element.hide( 'video-grow');
+	},
+	
+	shrink : function( )
+	{
+		new Effect.Scale(' video-container-' + this.prev_video + ' video-object' , 41.667 );
+		Element.show('video-grow');
+		Element.hide('video-shrink');
+	},
+	
+	hide : function()
+	{
+		$(' video-container-' + this.prev_video).innerHTML = '';
+	}
+};
+function rajan(msg)
+{
+	var spincount = 0;
+	if(spincount > 0){
+	$('product-media-videos').hide();
+	$('gntest').hide();
+	} else {
+	$('product-media-videos').show();
+	}
+	$('divimg').hide();
+	if(spincount == 0){
+		$('divvideo').show();
+	}
+	$(' videoembed').show();
+	$('product-media-images').className = 'videohide';
+	//var videocont = $(' video-container-'+ 817).innerHTML;
+	var fb = $(' videoshare').innerHTML;
+	fb = fb.replace("facebookpicture",msg);
+	//fb = fb.replace(" videosourcefile",videocont);
+	//$(' videolink').value = videocont;
+	$('fbook').innerHTML = fb;
+	//var pin = $('pinvideo').innerHTML;
+	//pin = pin.replace("pinvideoImage",msg);
+	//$('pinvideo').innerHTML = pin;
+}
+function rajan1(msg)
+{
+	var spincount1 = 0;
+	$('product-media-videos').show();
+	$('divimg').hide();
+	if(spincount1 > 0){
+	$('gnspinhide').hide();
+	}
+	$('divvideo').show();
+	$(' videoembed').show();
+	$('product-media-images').className = 'videohide';
+	//var videocont = $(' video-container-'+ 817).innerHTML;
+	var fb = $(' videoshare').innerHTML;
+	fb = fb.replace("facebookpicture",msg);
+	//fb = fb.replace(" videosourcefile",videocont);
+	//$(' videolink').value = videocont;
+	$('fbook').innerHTML = fb;
+	//var pin = $('pinvideo').innerHTML;
+	//pin = pin.replace("pinvideoImage",msg);
+	//$('pinvideo').innerHTML = pin;
+}
+function showimg()
+{
+	var gnspincount = 0;
+	$('product-media-videos').hide();
+	$('divvideo').hide();
+	$(' videoembed').hide();
+	if(gnspincount > 0){
+	$('gntest').show();
+	$('gnspinhide').hide();
+	}
+	$('divimg').show();
+	$('product-media-images').className = 'imagehide';
+}
+function showspin()
+{
+	$('product-media-videos').hide();
+	$('divvideo').hide();
+	$(' videoembed').hide();
+	$('gnspinhide').show();
+	$('divimg').hide();
+	$('gntest').hide();
+	$('product-media-images').className = 'imagehide';
+}
+
+
+function fbvideo()
+{
+//alert($('fbook').innerHTML.replace(/\amp;/g,''));
+ location.href= $('fbook').innerHTML.replace(/\amp;/g,'');
+}
+
+function toggleImageVideoList( type )
+{
+	var vidL = $('product-media-videos');
+	var picL = $('product-media-images');
+
+	var vidT = $('video_tab');
+	var picT = $('image_tab');
+	
+	switch( type )
+	{
+		case 'images':
+			vidL.hide();
+			if (JsObject != "undefined")
+			{
+				JsObject.hide(); // This stops videos from playing in IE
+			}
+			picL.show();
+			vidT.className = 'last';
+			picT.className = 'active';
+			break;
+		case 'videos':
+			if (JsObject != "undefined")
+			{
+				JsObject.setPrevVideo();
+			}
+			JsObject.setVideo('816');
+			vidL.show();
+			picL.hide();
+			vidT.className = 'active last';
+			picT.className = '';
+			break;
+	}
+}
+var JsObject = new VideoGallery_View( 260 , 150 , 'product-media-videos .product-video');
+JsObject.videoBlocks = new Array();
+	JsObject.videoBlocks['816'] = "<div class=\" video-object\" style=\"width: 362px; height: 236px;\"> 	<object id=\"product_gallery_video\" width=\"100%\" height=\"100%\"> 		<param name=\"movie\" value=\"http://ww1.escapade.co.uk/js/iceberg/videogallery/flowplayer.swf\" />  		<param name=\"bgcolor\" value=\"#ffffff\" /> 		<param name=\"quality\" value=\"high\" /> 		<param name=\"allowfullscreen\" value=\"true\" /> 		<param name=\"flashvars\" value=\'config={\"clip\":{\"scaling\":\"fit\",  \"url\":\"http://videos.escapade.co.uk/Videos/complete/Baby-on-ma-costume-3001-10.flv\"},\"canvas\":{\"backgroundColor\":\"#ffffff\",\"backgroundGradient\":\"none\"}}\' /> 		<embed src=\"http://ww1.escapade.co.uk/js/iceberg/videogallery/flowplayer.swf\" 			type=\"application/x-shockwave-flash\"  			wmode=\"transparent\"  		  	width=\"100%\" height=\"100%\" 			allowfullscreen=\"true\" 			quality=\"high\" 			bgcolor=\"#ffffff\" 			flashvars=\'config={\"clip\":{\"scaling\":\"fit\",  \"url\":\"http://videos.escapade.co.uk/Videos/complete/Baby-on-ma-costume-3001-10.flv\"},\"canvas\":{\"backgroundColor\":\"#ffffff\",\"backgroundGradient\":\"none\"}}\' /> 		</embed> 	</object> </div>  " + "<div class='video-description'>This hilarious Baby On Ma Costume is the perfect costume for every mama\'s boy out there! Available with next day delivery.</div>";
+	JsObject.videoBlocks['817'] = "<div class=\" video-object\" style=\"width: 362px; height: 236px;\"> 	<object id=\"product_gallery_video\" width=\"100%\" height=\"100%\"> 		<param name=\"movie\" value=\"http://ww1.escapade.co.uk/js/iceberg/videogallery/flowplayer.swf\" />  		<param name=\"bgcolor\" value=\"#ffffff\" /> 		<param name=\"quality\" value=\"high\" /> 		<param name=\"allowfullscreen\" value=\"true\" /> 		<param name=\"flashvars\" value=\'config={\"clip\":{\"scaling\":\"fit\",  \"url\":\"http://videos.escapade.co.uk/Videos/complete/Baby-on-ma-costume-3001.flv\"},\"canvas\":{\"backgroundColor\":\"#ffffff\",\"backgroundGradient\":\"none\"}}\' /> 		<embed src=\"http://ww1.escapade.co.uk/js/iceberg/videogallery/flowplayer.swf\" 			type=\"application/x-shockwave-flash\"  			wmode=\"transparent\"  		  	width=\"100%\" height=\"100%\" 			allowfullscreen=\"true\" 			quality=\"high\" 			bgcolor=\"#ffffff\" 			flashvars=\'config={\"clip\":{\"scaling\":\"fit\",  \"url\":\"http://videos.escapade.co.uk/Videos/complete/Baby-on-ma-costume-3001.flv\"},\"canvas\":{\"backgroundColor\":\"#ffffff\",\"backgroundGradient\":\"none\"}}\' /> 		</embed> 	</object> </div>  " + "<div class='video-description'>For those of you who aren\'t ready to grow up than the fantastic baby on ma costume is the perfect solution. This hillarious fancy dress costume is sure to be a hit at any party and guaranteed to get a few smiles.</div>";
+
+JsObject.setVideo('816');
+</script>
